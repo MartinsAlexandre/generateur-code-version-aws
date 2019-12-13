@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>AWS cli generate code step fonction</title>
+    <meta charset="utf-8" />
+    <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
+</head>
+
+<body>
+    <div
+        style="width: 100vw; height: 100vh; display: flex; flex-direction: column; justify-content: space-around; align-items: center; margin: 50px; font-size: 0.8rem">
+        <div
+            style="width: 50%; min-height: 45%; display: flex; flex-direction: column; justify-content: space-around; align-items: center">
+            <h1>AWS cli generate code version</h1>
+
+            <div style="width: 100%;  display: flex; justify-content: space-around; align-items: center">
+                <h3>Coller le code ici : </h3>
+                <input type="text" id="inputCodeEl">
+                <button id="generate_button" onclick="generateCodeCli()"
+                    style="width: 20%; height: 50px">Generate</button>
+            </div>
+
+            <button onclick="copyCodeDev()" style="width: 20%; height: 50px"> Copy code Dev</button>
+            <div id="notifDev"></div>
+            <textarea id="resultCodeDev" rows="10" cols="110"></textarea>
+            <button onclick="copyCodeProd()" style="width: 20%; height: 50px"> Copy code Prod</button>
+            <div id="notifProd"></div>
+            <textarea id="resultCodeProd" rows="10" cols="110"></textarea>
+        </div>
+    </div>
+
+
+    <script type="text/javascript">
+        var generateCodeCli = function () {
+            var inputCode = document.getElementById('inputCodeEl').value;
+
+            var codeDev = inputCode.replace('${stageVariables.lambdaAlias}', 'dev');
+            var codeProd = inputCode.replace('${stageVariables.lambdaAlias}', 'prod');
+
+            document.getElementById('resultCodeDev').innerHTML = codeDev;
+            document.getElementById('resultCodeProd').innerHTML = codeProd;
+
+        };
+
+        function copyCodeDev() {
+            var copyText = document.getElementById("resultCodeDev");
+            copyText.select();
+            document.execCommand("copy");
+            var notif = document.getElementById('notifDev')
+            notif.innerHTML = `<p>Code dev copié !</p>`
+        };
+
+        function copyCodeProd() {
+            var copyText = document.getElementById("resultCodeProd");
+            copyText.select();
+            document.execCommand("copy");
+            var notif = document.getElementById('notifProd')
+            notif.innerHTML = `<p>Code prod copié !</p>`
+        };
+    </script>
+
+</body>
+
+</html>
